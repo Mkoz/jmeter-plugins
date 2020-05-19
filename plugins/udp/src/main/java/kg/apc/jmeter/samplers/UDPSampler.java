@@ -104,13 +104,15 @@ public class UDPSampler extends AbstractIPSampler implements UDPTrafficDecoder, 
         }
         int adr = getBindPortAsInt();
         if (isReuseConnection()) {
-            c = deSerializeChanel(jmvars.get(REUSE_VAR));
+            //c = deSerializeChanel(jmvars.get(REUSE_VAR));
+            c = context.getJMeterVariables().getObject(REUSE_VAR);
         } else {
             c.bind(new InetSocketAddress(bindAddress, adr));
 
             int port = Integer.parseInt(getPort());
             c.connect(new InetSocketAddress(getHostName(), port));
-            jmvars.put(REUSE_VAR, serializeChanel(c));
+            context.getJMeterVariables().putObject(REUSE_VAR, c);
+            //jmvars.put(REUSE_VAR, serializeChanel(c));
         }
         return c;
     }
