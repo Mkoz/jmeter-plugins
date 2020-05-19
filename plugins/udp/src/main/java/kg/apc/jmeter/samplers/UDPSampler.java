@@ -105,7 +105,7 @@ public class UDPSampler extends AbstractIPSampler implements UDPTrafficDecoder, 
         int adr = getBindPortAsInt();
         if (isReuseConnection()) {
             //c = deSerializeChanel(jmvars.get(REUSE_VAR));
-            c = (c.getClass())jmvars.getObject(REUSE_VAR);
+            c = (c.getType())jmvars.getObject(REUSE_VAR);
         } else {
             c.bind(new InetSocketAddress(bindAddress, adr));
 
