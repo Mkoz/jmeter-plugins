@@ -248,7 +248,7 @@ public class UDPSampler extends AbstractIPSampler implements UDPTrafficDecoder, 
         return gson.fromJson(aStr, DatagramChannel.class);;
     }
     
-    private String SerializeChanel(DatagramChannel aChan) {
+    private String serializeChanel(DatagramChannel aChan) {
         Gson gson = new Gson();
         return  gson.toJson(aChan);
     }
