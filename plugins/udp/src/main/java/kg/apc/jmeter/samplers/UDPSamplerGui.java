@@ -14,6 +14,7 @@ public class UDPSamplerGui extends AbstractSamplerGui {
     private JTextField hostName;
     private JTextField port;
     private JCheckBox waitResponse;
+    private JCheckBox reuseConnection;
     private JCheckBox closeChannel;
     private JTextField timeout;
     private JTextField messageEncodeClass;
@@ -46,6 +47,7 @@ public class UDPSamplerGui extends AbstractSamplerGui {
             port.setText(sampler.getPort());
             timeout.setText(sampler.getTimeout());
             waitResponse.setSelected(sampler.isWaitResponse());
+            reuseConnection.setSelected(sampler.isReuseConnection());
             closeChannel.setSelected(sampler.isCloseChannel());
             messageEncodeClass.setText(sampler.getEncoderClass());
             requestData.setText(sampler.getRequestData());
@@ -71,6 +73,7 @@ public class UDPSamplerGui extends AbstractSamplerGui {
             sampler.setHostName(hostName.getText());
             sampler.setPort(port.getText());
             sampler.setWaitResponse(waitResponse.isSelected());
+            sampler.setReuseConnection(reuseConnection.isSelected());
             sampler.setCloseChannel(closeChannel.isSelected());
             sampler.setTimeout(timeout.getText());
             sampler.setRequestData(transformCRLF(requestData.getText()));
@@ -168,6 +171,7 @@ public class UDPSamplerGui extends AbstractSamplerGui {
         port.setText("");
         timeout.setText("1000");
         waitResponse.setSelected(true);
+        reuseConnection.setSelected(false);
         closeChannel.setSelected(false);
         messageEncodeClass.setText(HexStringUDPDecoder.class.getCanonicalName());
         requestData.setText("");
