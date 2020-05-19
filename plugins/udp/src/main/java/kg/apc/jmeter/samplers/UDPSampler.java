@@ -269,7 +269,7 @@ public class UDPSampler extends AbstractIPSampler implements UDPTrafficDecoder, 
         });
         encoder.writeObject(aChan);
         encoder.close();
-        fos.close();
+        baos.close();
         return new String(baos.toByteArray());
         /*Gson gson = new Gson();
         return  gson.toJson(aChan);*/
