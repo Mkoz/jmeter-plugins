@@ -261,7 +261,7 @@ public class UDPSampler extends AbstractIPSampler implements UDPTrafficDecoder, 
     
     private String serializeChanel(DatagramChannel aChan) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        XMLEncoder encoder = new XMLEncoder(fos);
+        XMLEncoder encoder = new XMLEncoder(baos);
         encoder.setExceptionListener(new ExceptionListener() {
             public void exceptionThrown(Exception e) {
                 System.out.println("Exception! :"+e.toString());
