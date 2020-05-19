@@ -47,7 +47,7 @@ public class UDPSampler extends AbstractIPSampler implements UDPTrafficDecoder, 
         setProperty(WAITRESPONSE, selected);
     }
 
-    public void setWaitResponse(boolean selected) {
+    public void setReuseConnection(boolean selected) {
         setProperty(REUSECONNECTION, selected);
     }
 
