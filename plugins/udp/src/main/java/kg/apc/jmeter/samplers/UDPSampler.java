@@ -14,7 +14,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
 import java.nio.channels.spi.AbstractSelectableChannel;
 import com.google.gson.*;
-org.apache.jmeter.threads.JMeterVariables;
+import org.apache.jmeter.threads.JMeterVariables;
 
 public class UDPSampler extends AbstractIPSampler implements UDPTrafficDecoder, ThreadListener {
 
