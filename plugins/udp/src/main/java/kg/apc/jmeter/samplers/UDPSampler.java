@@ -89,7 +89,7 @@ public class UDPSampler extends AbstractIPSampler implements UDPTrafficDecoder, 
     @Override
     protected AbstractSelectableChannel getChannel() throws IOException {
         DatagramChannel c;
-        JMeterVariables jmvars = getThreadContext().getJMeterVariables();
+        JMeterVariables jmvars = getThreadContext().getVariables();
 
         if (isWaitResponse()) {
             c = DatagramChannelWithTimeouts.open();
@@ -105,7 +105,7 @@ public class UDPSampler extends AbstractIPSampler implements UDPTrafficDecoder, 
         int adr = getBindPortAsInt();
         if (isReuseConnection()) {
             //c = deSerializeChanel(jmvars.get(REUSE_VAR));
-            c = jmvars.getObject(REUSE_VAR);
+            c = (DatagramChannel)jmvars.getObject(REUSE_VAR);
         } else {
             c.bind(new InetSocketAddress(bindAddress, adr));
 
