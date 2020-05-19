@@ -107,7 +107,7 @@ public class UDPSampler extends AbstractIPSampler implements UDPTrafficDecoder, 
             //c = deSerializeChanel(jmvars.get(REUSE_VAR));
             if (isWaitResponse()) {
                 c = (DatagramChannelWithTimeouts)jmvars.getObject(REUSE_VAR);
-            else {
+            } else {
                 c = (DatagramChannel)jmvars.getObject(REUSE_VAR);
             }
         } else {
