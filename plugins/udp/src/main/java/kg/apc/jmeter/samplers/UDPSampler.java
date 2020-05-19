@@ -270,7 +270,7 @@ public class UDPSampler extends AbstractIPSampler implements UDPTrafficDecoder, 
         encoder.writeObject(aChan);
         encoder.close();
         //baos.close();
-        System.out.println("Debug:: serializeChanel " + new String(baos.toByteArray()))
+        System.out.println("Debug:: serializeChanel " + new String(baos.toByteArray()));
         return new String(baos.toByteArray());
         /*Gson gson = new Gson();
         return  gson.toJson(aChan);*/
