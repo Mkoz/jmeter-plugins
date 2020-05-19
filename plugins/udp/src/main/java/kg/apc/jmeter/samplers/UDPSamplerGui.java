@@ -128,7 +128,7 @@ public class UDPSamplerGui extends AbstractSamplerGui {
         addToPanel(mainPanel, editConstraints, 1, 3, waitResponse = new JCheckBox());
         
         addToPanel(mainPanel, labelConstraints, 0, 4, new JLabel("Use already existed connection from UDP_SAMPLER_CONNECTION variable: ", JLabel.RIGHT));
-        addToPanel(mainPanel, editConstraints, 1, 4, reuseConnection = new JCheckBox())
+        addToPanel(mainPanel, editConstraints, 1, 4, reuseConnection = new JCheckBox());
 
         addToPanel(mainPanel, labelConstraints, 0, 5, new JLabel("Close UDP Socket: ", JLabel.RIGHT));
         addToPanel(mainPanel, editConstraints, 1, 5, closeChannel = new JCheckBox());
