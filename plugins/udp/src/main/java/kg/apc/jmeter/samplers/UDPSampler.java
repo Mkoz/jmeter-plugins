@@ -19,14 +19,20 @@ public class UDPSampler extends AbstractIPSampler implements UDPTrafficDecoder, 
     private static final Logger log = LoggingManager.getLoggerForClass();
     public static final String ENCODECLASS = "encodeclass";
     public static final String WAITRESPONSE = "waitresponse";
+    public static final String REUSECONNECTION = "reuseconnection";
     public static final String CLOSECHANNEL = "closechannel";
     public static final String BIND_ADDRESS = "bind_address";
     public static final String BIND_PORT = "bind_port";
+    public static final String REUSE_VAR = "UDP_SAMPLER_CONNECTION";
     private DatagramChannel channel;
     private UDPTrafficDecoder encoder;
 
     public boolean isWaitResponse() {
         return getPropertyAsBoolean(WAITRESPONSE);
+    }
+
+    public boolean isReuseConnection() {
+        return getPropertyAsBoolean(REUSECONNECTION);
     }
 
     public boolean isCloseChannel() {
@@ -39,6 +45,10 @@ public class UDPSampler extends AbstractIPSampler implements UDPTrafficDecoder, 
 
     public void setWaitResponse(boolean selected) {
         setProperty(WAITRESPONSE, selected);
+    }
+
+    public void setWaitResponse(boolean selected) {
+        setProperty(REUSECONNECTION, selected);
     }
 
     public void setCloseChannel(boolean selected) {
@@ -72,6 +82,8 @@ public class UDPSampler extends AbstractIPSampler implements UDPTrafficDecoder, 
     @Override
     protected AbstractSelectableChannel getChannel() throws IOException {
         DatagramChannel c;
+        JMeterVariables jmvars = getThreadContext().getVariables();
+
         if (isWaitResponse()) {
             c = DatagramChannelWithTimeouts.open();
             ((DatagramChannelWithTimeouts) c).setReadTimeout(getTimeoutAsInt());
@@ -84,10 +96,15 @@ public class UDPSampler extends AbstractIPSampler implements UDPTrafficDecoder, 
             bindAddress = "0.0.0.0";
         }
         int adr = getBindPortAsInt();
-        c.bind(new InetSocketAddress(bindAddress, adr));
+        if (isReuseConnection()) {
+            c = deSerializeChanel(jmvars.get(REUSE_VAR));
+        } else {
+            c.bind(new InetSocketAddress(bindAddress, adr));
 
-        int port = Integer.parseInt(getPort());
-        c.connect(new InetSocketAddress(getHostName(), port));
+            int port = Integer.parseInt(getPort());
+            c.connect(new InetSocketAddress(getHostName(), port));
+            jmvars.put(REUSE_VAR, serializeChanel(c));
+        }
         return c;
     }
 
@@ -222,5 +239,15 @@ public class UDPSampler extends AbstractIPSampler implements UDPTrafficDecoder, 
             }
         }
         return true;
+    }
+    
+    private DatagramChannel deSerializeChanel(String aStr) {
+        Gson gson = new Gson();
+        return gson.fromJson(aStr, DatagramChannel.class);;
+    }
+    
+    private String SerializeChanel(DatagramChannel aChan) {
+        Gson gson = new Gson();
+        return  gson.toJson(aChan);
     }
 }
