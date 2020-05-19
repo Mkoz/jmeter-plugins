@@ -123,30 +123,33 @@ public class UDPSamplerGui extends AbstractSamplerGui {
 
         addToPanel(mainPanel, labelConstraints, 0, 3, new JLabel("Wait for Response: ", JLabel.RIGHT));
         addToPanel(mainPanel, editConstraints, 1, 3, waitResponse = new JCheckBox());
+        
+        addToPanel(mainPanel, labelConstraints, 0, 4, new JLabel("Use already existed connection from UDP_SAMPLER_CONNECTION variable: ", JLabel.RIGHT));
+        addToPanel(mainPanel, editConstraints, 1, 4, reuseConnection = new JCheckBox())
 
-        addToPanel(mainPanel, labelConstraints, 0, 4, new JLabel("Close UDP Socket: ", JLabel.RIGHT));
-        addToPanel(mainPanel, editConstraints, 1, 4, closeChannel = new JCheckBox());
+        addToPanel(mainPanel, labelConstraints, 0, 5, new JLabel("Close UDP Socket: ", JLabel.RIGHT));
+        addToPanel(mainPanel, editConstraints, 1, 5, closeChannel = new JCheckBox());
 
-        addToPanel(mainPanel, labelConstraints, 0, 5, new JLabel("Response Timeout: ", JLabel.RIGHT));
-        addToPanel(mainPanel, editConstraints, 1, 5, timeout = new JTextField(20));
+        addToPanel(mainPanel, labelConstraints, 0, 6, new JLabel("Response Timeout: ", JLabel.RIGHT));
+        addToPanel(mainPanel, editConstraints, 1, 6, timeout = new JTextField(20));
 
-        addToPanel(mainPanel, labelConstraints, 0, 6, new JLabel("Data Encode/Decode class: ", JLabel.RIGHT));
-        addToPanel(mainPanel, editConstraints, 1, 6, messageEncodeClass = new JTextField(20));
+        addToPanel(mainPanel, labelConstraints, 0, 7, new JLabel("Data Encode/Decode class: ", JLabel.RIGHT));
+        addToPanel(mainPanel, editConstraints, 1, 7, messageEncodeClass = new JTextField(20));
 
         editConstraints.insets = new java.awt.Insets(4, 0, 0, 0);
         labelConstraints.insets = new java.awt.Insets(4, 0, 0, 0);
 
-        addToPanel(mainPanel, labelConstraints, 0, 7, new JLabel("Request Data: ", JLabel.RIGHT));
+        addToPanel(mainPanel, labelConstraints, 0, 8, new JLabel("Request Data: ", JLabel.RIGHT));
 
         editConstraints.fill = GridBagConstraints.BOTH;
         requestData = new JTextArea();
-        addToPanel(mainPanel, editConstraints, 1, 7, GuiBuilderHelper.getTextAreaScrollPaneContainer(requestData, 10));
+        addToPanel(mainPanel, editConstraints, 1, 8, GuiBuilderHelper.getTextAreaScrollPaneContainer(requestData, 10));
 
-        addToPanel(mainPanel, labelConstraints, 0, 8, new JLabel("Bind Local Address: ", JLabel.RIGHT));
-        addToPanel(mainPanel, editConstraints, 1, 8, bindAddress = new JTextField(20));
+        addToPanel(mainPanel, labelConstraints, 0, 9, new JLabel("Bind Local Address: ", JLabel.RIGHT));
+        addToPanel(mainPanel, editConstraints, 1, 9, bindAddress = new JTextField(20));
 
-        addToPanel(mainPanel, labelConstraints, 0, 9, new JLabel("Bind Local Port: ", JLabel.RIGHT));
-        addToPanel(mainPanel, editConstraints, 1, 9, bindPort = new JTextField(20));
+        addToPanel(mainPanel, labelConstraints, 0, 10, new JLabel("Bind Local Port: ", JLabel.RIGHT));
+        addToPanel(mainPanel, editConstraints, 1, 10, bindPort = new JTextField(20));
 
 
         JPanel container = new JPanel(new BorderLayout());
