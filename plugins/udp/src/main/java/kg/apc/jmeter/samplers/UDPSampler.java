@@ -13,6 +13,7 @@ import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
 import java.nio.channels.spi.AbstractSelectableChannel;
+import com.google.gson.*;
 
 public class UDPSampler extends AbstractIPSampler implements UDPTrafficDecoder, ThreadListener {
 
