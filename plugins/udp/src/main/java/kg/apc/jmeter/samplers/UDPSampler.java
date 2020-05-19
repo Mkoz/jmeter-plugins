@@ -13,8 +13,13 @@ import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
 import java.nio.channels.spi.AbstractSelectableChannel;
-import com.google.gson.*;
+//import com.google.gson.*;
 import org.apache.jmeter.threads.JMeterVariables;
+import java.beans.ExceptionListener;
+import java.beans.XMLDecoder;
+import java.beans.XMLEncoder;
+import java.io.ByteArrayOutputStream;
+import java.io.ByteArrayInputStream;
 
 public class UDPSampler extends AbstractIPSampler implements UDPTrafficDecoder, ThreadListener {
 
@@ -244,12 +249,29 @@ public class UDPSampler extends AbstractIPSampler implements UDPTrafficDecoder, 
     }
     
     private DatagramChannel deSerializeChanel(String aStr) {
+        XMLDecoder dec = new XMLDecoder(new ByteArrayInputStream(aStr.getBytes()));
+        DatagramChannel chan = (DatagramChannel) dec.readObject();
+        dec.close();
+        return chan;
+        /*
         Gson gson = new Gson();
         return gson.fromJson(aStr, DatagramChannel.class);
+        */
     }
     
     private String serializeChanel(DatagramChannel aChan) {
-        Gson gson = new Gson();
-        return  gson.toJson(aChan);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        XMLEncoder encoder = new XMLEncoder(fos);
+        encoder.setExceptionListener(new ExceptionListener() {
+            public void exceptionThrown(Exception e) {
+                System.out.println("Exception! :"+e.toString());
+            }
+        });
+        encoder.writeObject(aChan);
+        encoder.close();
+        fos.close();
+        return new String(baos.toByteArray());
+        /*Gson gson = new Gson();
+        return  gson.toJson(aChan);*/
     }
 }
