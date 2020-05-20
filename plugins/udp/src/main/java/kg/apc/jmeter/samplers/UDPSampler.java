@@ -13,13 +13,7 @@ import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
 import java.nio.channels.spi.AbstractSelectableChannel;
-//import com.google.gson.*;
 import org.apache.jmeter.threads.JMeterVariables;
-import java.beans.ExceptionListener;
-import java.beans.XMLDecoder;
-import java.beans.XMLEncoder;
-import java.io.ByteArrayOutputStream;
-import java.io.ByteArrayInputStream;
 
 public class UDPSampler extends AbstractIPSampler implements UDPTrafficDecoder, ThreadListener {
 
@@ -104,7 +98,6 @@ public class UDPSampler extends AbstractIPSampler implements UDPTrafficDecoder, 
         }
         int adr = getBindPortAsInt();
         if (isReuseConnection()) {
-            //c = deSerializeChanel(jmvars.get(REUSE_VAR));
             if (isWaitResponse()) {
                 c = (DatagramChannelWithTimeouts)jmvars.getObject(REUSE_VAR);
             } else {
@@ -116,7 +109,6 @@ public class UDPSampler extends AbstractIPSampler implements UDPTrafficDecoder, 
             int port = Integer.parseInt(getPort());
             c.connect(new InetSocketAddress(getHostName(), port));
             jmvars.putObject(REUSE_VAR, c);
-            //jmvars.put(REUSE_VAR, serializeChanel(c));
         }
         return c;
     }
@@ -232,13 +224,13 @@ public class UDPSampler extends AbstractIPSampler implements UDPTrafficDecoder, 
 
     @Override
     public void threadFinished() {
-        try {
+        /*try {
             if (channel != null) {
                 channel.close();
             }
         } catch (IOException ex) {
             log.error("Cannot close channel", ex);
-        }
+        }*/
     }
 
     @Override
@@ -252,33 +244,5 @@ public class UDPSampler extends AbstractIPSampler implements UDPTrafficDecoder, 
             }
         }
         return true;
-    }
-    
-    private DatagramChannel deSerializeChanel(String aStr) {
-        XMLDecoder dec = new XMLDecoder(new ByteArrayInputStream(aStr.getBytes()));
-        DatagramChannel chan = (DatagramChannel) dec.readObject();
-        dec.close();
-        return chan;
-        /*
-        Gson gson = new Gson();
-        return gson.fromJson(aStr, DatagramChannel.class);
-        */
-    }
-    
-    private String serializeChanel(DatagramChannel aChan) throws IOException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        XMLEncoder encoder = new XMLEncoder(baos);
-        encoder.setExceptionListener(new ExceptionListener() {
-            public void exceptionThrown(Exception e) {
-                System.out.println("Exception! :"+e.toString());
-            }
-        });
-        encoder.writeObject(aChan);
-        encoder.close();
-        //baos.close();
-        System.out.println("Debug:: serializeChanel " + new String(baos.toByteArray()));
-        return new String(baos.toByteArray());
-        /*Gson gson = new Gson();
-        return  gson.toJson(aChan);*/
     }
 }
