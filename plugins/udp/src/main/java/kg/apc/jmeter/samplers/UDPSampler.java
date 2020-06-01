@@ -25,6 +25,7 @@ public class UDPSampler extends AbstractIPSampler implements UDPTrafficDecoder, 
     public static final String BIND_ADDRESS = "bind_address";
     public static final String BIND_PORT = "bind_port";
     public static final String REUSE_VAR = "UDP_SAMPLER_CONNECTION";
+    public static final String LISTENERONLY = "listeneronly";
     private DatagramChannel channel;
     private UDPTrafficDecoder encoder;
 
@@ -34,6 +35,10 @@ public class UDPSampler extends AbstractIPSampler implements UDPTrafficDecoder, 
 
     public boolean isReuseConnection() {
         return getPropertyAsBoolean(REUSECONNECTION);
+    }
+
+    public boolean isListenerOnly() {
+        return getPropertyAsBoolean(LISTENERONLY);
     }
 
     public boolean isCloseChannel() {
@@ -50,6 +55,10 @@ public class UDPSampler extends AbstractIPSampler implements UDPTrafficDecoder, 
 
     public void setReuseConnection(boolean selected) {
         setProperty(REUSECONNECTION, selected);
+    }
+
+    public void setListenerOnly(boolean selected) {
+        setProperty(LISTENERONLY, selected);
     }
 
     public void setCloseChannel(boolean selected) {
@@ -130,7 +139,9 @@ public class UDPSampler extends AbstractIPSampler implements UDPTrafficDecoder, 
     @Override
     protected byte[] processIO(SampleResult res) throws Exception {
         connect(res);
-        send();
+        if (!isListenerOnly()) {
+            send();
+        }
 
         if (!isWaitResponse()) {
             return noResponseFinish(res);
@@ -224,13 +235,15 @@ public class UDPSampler extends AbstractIPSampler implements UDPTrafficDecoder, 
 
     @Override
     public void threadFinished() {
-        /*try {
-            if (channel != null) {
-                channel.close();
+        if(isListenerOnly()) {
+            try {
+                if (channel != null) {
+                    channel.close();
+                }
+            } catch (IOException ex) {
+               log.error("Cannot close channel", ex);
             }
-        } catch (IOException ex) {
-            log.error("Cannot close channel", ex);
-        }*/
+        }
     }
 
     @Override

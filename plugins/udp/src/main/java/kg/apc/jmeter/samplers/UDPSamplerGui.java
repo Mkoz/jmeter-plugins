@@ -15,6 +15,7 @@ public class UDPSamplerGui extends AbstractSamplerGui {
     private JTextField port;
     private JCheckBox waitResponse;
     private JCheckBox reuseConnection;
+    private JCheckBox listenerOnly;
     private JCheckBox closeChannel;
     private JTextField timeout;
     private JTextField messageEncodeClass;
@@ -47,6 +48,7 @@ public class UDPSamplerGui extends AbstractSamplerGui {
             port.setText(sampler.getPort());
             timeout.setText(sampler.getTimeout());
             waitResponse.setSelected(sampler.isWaitResponse());
+            listenerOnly.setSelected(sampler.isListenerOnly());
             reuseConnection.setSelected(sampler.isReuseConnection());
             closeChannel.setSelected(sampler.isCloseChannel());
             messageEncodeClass.setText(sampler.getEncoderClass());
@@ -73,6 +75,7 @@ public class UDPSamplerGui extends AbstractSamplerGui {
             sampler.setHostName(hostName.getText());
             sampler.setPort(port.getText());
             sampler.setWaitResponse(waitResponse.isSelected());
+            sampler.setListenerOnly(listenerOnly.isSelected());
             sampler.setReuseConnection(reuseConnection.isSelected());
             sampler.setCloseChannel(closeChannel.isSelected());
             sampler.setTimeout(timeout.getText());
@@ -126,33 +129,36 @@ public class UDPSamplerGui extends AbstractSamplerGui {
 
         addToPanel(mainPanel, labelConstraints, 0, 3, new JLabel("Wait for Response: ", JLabel.RIGHT));
         addToPanel(mainPanel, editConstraints, 1, 3, waitResponse = new JCheckBox());
-        
+
+        addToPanel(mainPanel, labelConstraints, 2, 3, new JLabel("Listener mod: ", JLabel.RIGHT));
+        addToPanel(mainPanel, editConstraints, 3, 3, listenerOnly = new JCheckBox());
+
         addToPanel(mainPanel, labelConstraints, 0, 4, new JLabel("Reuse connection: ", JLabel.RIGHT));
         addToPanel(mainPanel, editConstraints, 1, 4, reuseConnection = new JCheckBox());
 
-        addToPanel(mainPanel, labelConstraints, 0, 5, new JLabel("Close UDP Socket: ", JLabel.RIGHT));
-        addToPanel(mainPanel, editConstraints, 1, 5, closeChannel = new JCheckBox());
+        addToPanel(mainPanel, labelConstraints, 2, 4, new JLabel("Close UDP Socket: ", JLabel.RIGHT));
+        addToPanel(mainPanel, editConstraints, 3, 4, closeChannel = new JCheckBox());
 
-        addToPanel(mainPanel, labelConstraints, 0, 6, new JLabel("Response Timeout: ", JLabel.RIGHT));
-        addToPanel(mainPanel, editConstraints, 1, 6, timeout = new JTextField(20));
+        addToPanel(mainPanel, labelConstraints, 0, 5, new JLabel("Response Timeout: ", JLabel.RIGHT));
+        addToPanel(mainPanel, editConstraints, 1, 5, timeout = new JTextField(20));
 
-        addToPanel(mainPanel, labelConstraints, 0, 7, new JLabel("Data Encode/Decode class: ", JLabel.RIGHT));
-        addToPanel(mainPanel, editConstraints, 1, 7, messageEncodeClass = new JTextField(20));
+        addToPanel(mainPanel, labelConstraints, 0, 6, new JLabel("Data Encode/Decode class: ", JLabel.RIGHT));
+        addToPanel(mainPanel, editConstraints, 1, 6, messageEncodeClass = new JTextField(20));
 
         editConstraints.insets = new java.awt.Insets(4, 0, 0, 0);
         labelConstraints.insets = new java.awt.Insets(4, 0, 0, 0);
 
-        addToPanel(mainPanel, labelConstraints, 0, 8, new JLabel("Request Data: ", JLabel.RIGHT));
+        addToPanel(mainPanel, labelConstraints, 0, 7, new JLabel("Request Data: ", JLabel.RIGHT));
 
         editConstraints.fill = GridBagConstraints.BOTH;
         requestData = new JTextArea();
-        addToPanel(mainPanel, editConstraints, 1, 8, GuiBuilderHelper.getTextAreaScrollPaneContainer(requestData, 10));
+        addToPanel(mainPanel, editConstraints, 1, 7, GuiBuilderHelper.getTextAreaScrollPaneContainer(requestData, 10));
 
-        addToPanel(mainPanel, labelConstraints, 0, 9, new JLabel("Bind Local Address: ", JLabel.RIGHT));
-        addToPanel(mainPanel, editConstraints, 1, 9, bindAddress = new JTextField(20));
+        addToPanel(mainPanel, labelConstraints, 0, 8, new JLabel("Bind Local Address: ", JLabel.RIGHT));
+        addToPanel(mainPanel, editConstraints, 1, 8, bindAddress = new JTextField(20));
 
-        addToPanel(mainPanel, labelConstraints, 0, 10, new JLabel("Bind Local Port: ", JLabel.RIGHT));
-        addToPanel(mainPanel, editConstraints, 1, 10, bindPort = new JTextField(20));
+        addToPanel(mainPanel, labelConstraints, 0, 9, new JLabel("Bind Local Port: ", JLabel.RIGHT));
+        addToPanel(mainPanel, editConstraints, 1, 9, bindPort = new JTextField(20));
 
 
         JPanel container = new JPanel(new BorderLayout());
@@ -171,6 +177,7 @@ public class UDPSamplerGui extends AbstractSamplerGui {
         port.setText("");
         timeout.setText("1000");
         waitResponse.setSelected(true);
+        listenerOnly.setSelected(false);
         reuseConnection.setSelected(false);
         closeChannel.setSelected(false);
         messageEncodeClass.setText(HexStringUDPDecoder.class.getCanonicalName());
